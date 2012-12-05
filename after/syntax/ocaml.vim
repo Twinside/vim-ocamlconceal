@@ -22,6 +22,12 @@
 "     * if you want to avoid the loading, add the following
 "       line in your .vimrc :
 "        let g:no_ocaml_conceal = 1
+"
+"     * Avoid concealing float operators (+., -., /., *.)
+"        let g:no_ocaml_conceal_float_operators = 1
+"
+"     * Avoid concealing common type variables
+"        let g:no_ocaml_conceal_type_variables = 1
 " Changelog:
 "
 if exists('g:no_ocaml_conceal') || !has('conceal') || &enc != 'utf-8'
@@ -29,24 +35,28 @@ if exists('g:no_ocaml_conceal') || !has('conceal') || &enc != 'utf-8'
 endif
 
 " vim: set fenc=utf-8:
-syntax match ocamlNiceOperator "\<fun\>" conceal cchar=λ
 syntax match ocamlNiceOperator "->" conceal cchar=→
 syntax match ocamlNiceOperator "\<sum\>" conceal cchar=∑
 syntax match ocamlNiceOperator "\<product\>" conceal cchar=∏ 
 syntax match ocamlNiceOperator "\<sqrt\>" conceal cchar=√ 
 syntax match ocamlNiceOperator "\<pi\>" conceal cchar=π
+syntax match ocamlNiceOperator "\<fun\>" conceal cchar=λ
 
 " Because it's annoying when reading code, points are distracting. :|
-syntax match ocamlNiceOperator "*\." conceal cchar=*
-syntax match ocamlNiceOperator "/\." conceal cchar=/
-syntax match ocamlNiceOperator "+\." conceal cchar=+
-syntax match ocamlNiceOperator "-\." conceal cchar=-
+if !exists('g:no_ocaml_conceal_float_operators')
+    syntax match ocamlNiceOperator "*\." conceal cchar=*
+    syntax match ocamlNiceOperator "/\." conceal cchar=/
+    syntax match ocamlNiceOperator "+\." conceal cchar=+
+    syntax match ocamlNiceOperator "-\." conceal cchar=-
+endif
 
 " Because I find greek letters prettier than 'a and 'b
-syntax match ocamlNiceType "'a\>" conceal cchar=α
-syntax match ocamlNiceType "'b\>" conceal cchar=β
-syntax match ocamlNiceType "'c\>" conceal cchar=γ
-syntax match ocamlNiceType "'d\>" conceal cchar=δ
+if !exists('g:no_ocaml_conceal_type_variables')
+    syntax match ocamlNiceType "'a\>" conceal cchar=α
+    syntax match ocamlNiceType "'b\>" conceal cchar=β
+    syntax match ocamlNiceType "'c\>" conceal cchar=γ
+    syntax match ocamlNiceType "'d\>" conceal cchar=δ
+endif
 
 let s:extraConceal = 1
 " Some windows font don't support some of the characters,
