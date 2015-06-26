@@ -40,6 +40,7 @@ syntax match ocamlNiceOperator "\<sum\>" conceal cchar=∑
 syntax match ocamlNiceOperator "\<product\>" conceal cchar=∏ 
 syntax match ocamlNiceOperator "\<sqrt\>" conceal cchar=√ 
 syntax match ocamlNiceOperator "\<pi\>" conceal cchar=π
+syntax match ocamlNiceOperator /(fun\>/ms=s+1 conceal cchar=λ
 syntax match ocamlNiceOperator "\<fun\>" conceal cchar=λ
 
 " Because it's annoying when reading code, points are distracting. :|
@@ -52,10 +53,14 @@ endif
 
 " Because I find greek letters prettier than 'a and 'b
 if !exists('g:no_ocaml_conceal_type_variables')
-    syntax match ocamlNiceType /'a\s/me=e-1 conceal cchar=α
-    syntax match ocamlNiceType /'b\s/me=e-1 conceal cchar=β
-    syntax match ocamlNiceType /'c\s/me=e-1 conceal cchar=γ
-    syntax match ocamlNiceType /'d\s/me=e-1 conceal cchar=δ
+    syntax match ocamlNiceType /'a\W/me=e-1 conceal cchar=α
+    syntax match ocamlNiceType /'b\W/me=e-1 conceal cchar=β
+    syntax match ocamlNiceType /'c\W/me=e-1 conceal cchar=γ
+    syntax match ocamlNiceType /'d\W/me=e-1 conceal cchar=δ
+    syntax match ocamlNiceType /'a$/ conceal cchar=α
+    syntax match ocamlNiceType /'b$/ conceal cchar=β
+    syntax match ocamlNiceType /'c$/ conceal cchar=γ
+    syntax match ocamlNiceType /'d$/ conceal cchar=δ
 endif
 
 let s:extraConceal = 1
